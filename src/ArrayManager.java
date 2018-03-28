@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.Random;
 
 public class ArrayManager {
@@ -16,14 +15,10 @@ public class ArrayManager {
     }
 
     public ArrayManager(int size, int bound, int includeValue, int atIndex) {
-        this(size, bound, Optional.of(includeValue), Optional.of(atIndex));
-    }
-
-    private ArrayManager(int size, int bound, Optional<Integer> includeValue, Optional<Integer> atIndex) {
         array = new ArrayImplementation(size);
 
         for (int i = 0; i < size; i++) {
-            array.add(generateNewValue(i, bound, includeValue.get(), atIndex.get()), i);
+            array.add(generateNewValue(i, bound, includeValue, atIndex), i);
         }
     }
 

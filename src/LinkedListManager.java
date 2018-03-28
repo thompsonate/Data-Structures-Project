@@ -1,4 +1,3 @@
-import java.util.Optional;
 import java.util.Random;
 
 public class LinkedListManager {
@@ -13,12 +12,8 @@ public class LinkedListManager {
     }
 
     public LinkedListManager(int size, int bound, int includeValue, int atIndex) {
-        this(size, bound, Optional.of(includeValue), Optional.of(atIndex));
-    }
-
-    private LinkedListManager(int size, int bound, Optional<Integer> includeValue, Optional<Integer> atIndex) {
         for (int i = 0; i < size; i++) {
-            list.insert(generateNewValue(i, bound, includeValue.get(), atIndex.get()), i);
+            list.insert(generateNewValue(i, bound, includeValue, atIndex), i);
         }
     }
 
