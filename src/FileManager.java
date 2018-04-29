@@ -38,7 +38,7 @@ public class FileManager {
             return Optional.of(list);
 
         } catch (IOException e) {
-            System.out.println(e.getLocalizedMessage());
+            System.out.println("Invalid file path.");
             return null;
         }
     }
