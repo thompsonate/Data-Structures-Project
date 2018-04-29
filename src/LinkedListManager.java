@@ -1,7 +1,16 @@
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class LinkedListManager {
     public LinkedListImplementation list = new LinkedListImplementation();
+
+    public LinkedListManager(ArrayList<Integer> input) {
+        Iterator<Integer> iterator = input.iterator();
+        for (int i = 0; i < input.size(); i++) {
+            list.insert(iterator.next().intValue(), i);
+        }
+    }
 
     public LinkedListManager(int size, int bound) {
         Random rand = new Random();
