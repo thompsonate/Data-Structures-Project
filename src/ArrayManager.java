@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Random;
 
 public class ArrayManager {
     public ArrayImplementation array;
@@ -10,42 +9,14 @@ public class ArrayManager {
         int[] ret = new int[input.size()];
         Iterator<Integer> iterator = input.iterator();
         for (int i = 0; i < ret.length; i++) {
-            ret[i] = iterator.next().intValue();
+            ret[i] = iterator.next();
         }
 
         array = new ArrayImplementation(ret);
     }
 
-    public ArrayManager(int size, int bound) {
+    public ArrayManager(int size) {
         array = new ArrayImplementation(size);
-
-        Random rand = new Random();
-
-        for (int i = 0; i < size; i++) {
-            array.add(rand.nextInt(bound), i);
-        }
-    }
-
-    public ArrayManager(int size, int bound, int includeValue, int atIndex) {
-        array = new ArrayImplementation(size);
-
-        for (int i = 0; i < size; i++) {
-            array.add(generateNewValue(i, bound, includeValue, atIndex), i);
-        }
-    }
-
-    private int generateNewValue(int forIndex, int bound, int includeValue, int atIndex) {
-        Random rand = new Random();
-
-        if (forIndex == atIndex) {
-            return includeValue;
-        } else {
-            int num;
-            do {
-                num = rand.nextInt(bound);
-            } while (num == includeValue);
-            return num;
-        }
     }
 }
 

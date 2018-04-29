@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 
 public class LinkedListManager {
     public LinkedListImplementation list = new LinkedListImplementation();
@@ -8,36 +7,12 @@ public class LinkedListManager {
     public LinkedListManager(ArrayList<Integer> input) {
         Iterator<Integer> iterator = input.iterator();
         for (int i = 0; i < input.size(); i++) {
-            list.insert(iterator.next().intValue(), i);
+            list.insert(iterator.next(), i);
         }
     }
 
-    public LinkedListManager(int size, int bound) {
-        Random rand = new Random();
-
-        for (int i = 0; i < size; i++) {
-            list.insert(rand.nextInt(bound), i);
-        }
-    }
-
-    public LinkedListManager(int size, int bound, int includeValue, int atIndex) {
-        for (int i = 0; i < size; i++) {
-            list.insert(generateNewValue(i, bound, includeValue, atIndex), i);
-        }
-    }
-
-    private int generateNewValue(int forIndex, int bound, int includeValue, int atIndex) {
-        Random rand = new Random();
-
-        if (forIndex == atIndex) {
-            return includeValue;
-        } else {
-            int num;
-            do {
-                num = rand.nextInt(bound);
-            } while (num == includeValue);
-            return num;
-        }
+    public LinkedListManager() {
+        list = new LinkedListImplementation();
     }
 }
 

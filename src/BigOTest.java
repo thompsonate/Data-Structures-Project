@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Scanner;
 
 public class BigOTest {
@@ -61,16 +62,53 @@ public class BigOTest {
                             }
                         } while (index >= size);
 
-                        arrayManager = new ArrayManager(size, bound, value, index);
-                        linkedListManager = new LinkedListManager(size, bound, value, index);
+                        constructDataStructuresWithRandomNums(size, bound, value, index);
                     } else {
-                        arrayManager = new ArrayManager(size, bound);
-                        linkedListManager = new LinkedListManager(size, bound);
+                        constructDataStructuresWithRandomNums(size, bound);
                     }
                     break;
                 default:
                     continueImport = false;
             }
+        }
+    }
+
+    private void constructDataStructuresWithRandomNums(int size, int bound) {
+        Random rand = new Random();
+        arrayManager = new ArrayManager(size);
+        linkedListManager = new LinkedListManager();
+
+        for (int i = 0; i < size; i++) {
+            int value = rand.nextInt(bound);
+
+            arrayManager.array.add(value, i);
+            linkedListManager.list.insert(value, i);
+        }
+    }
+
+    private void constructDataStructuresWithRandomNums(int size, int bound, int includeValue, int atIndex) {
+        arrayManager = new ArrayManager(size);
+        linkedListManager = new LinkedListManager();
+
+        for (int i = 0; i < size; i++) {
+            int value = generateNewValue(i, bound, includeValue, atIndex);
+
+            arrayManager.array.add(value, i);
+            linkedListManager.list.insert(value, i);
+        }
+    }
+
+    private int generateNewValue(int forIndex, int bound, int includeValue, int atIndex) {
+        Random rand = new Random();
+
+        if (forIndex == atIndex) {
+            return includeValue;
+        } else {
+            int num;
+            do {
+                num = rand.nextInt(bound);
+            } while (num == includeValue);
+            return num;
         }
     }
 
