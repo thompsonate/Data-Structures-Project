@@ -14,11 +14,47 @@ public class LinkedListManager {
     public LinkedListManager() {
         list = new LinkedListImplementation();
     }
+
+
+
+    public boolean linearSearch(int value)
+    {
+        Node current = list.front;
+        while (current != null)
+        {
+            if (current.getValue() == value)
+                return true;
+            current = current.getLink();
+        }
+        return false;
+    }
+
+    public int binarySearch(int value) {
+        return binarySearchRecursive(0, list.size(), value);
+    }
+
+    private int binarySearchRecursive(int leftSide, int rightSide, int value) {
+        if (rightSide>=leftSide) {
+            int mid = leftSide + (rightSide - leftSide)/2;
+
+            if (list.get(mid) == value)
+                return mid;
+            if (list.get(mid) > value)
+                return binarySearchRecursive(leftSide, mid-1, value);
+
+            return binarySearchRecursive(mid+1, rightSide, value);
+        }
+        return -1;
+    }
 }
 
 class LinkedListImplementation {
-    private Node front;
+    public Node front;
     private int size;
+
+    public int size() {
+        return size;
+    }
 
     public boolean insert(int value, int position) {
         Node newNode = new Node(value);
@@ -51,6 +87,29 @@ class LinkedListImplementation {
         }
 
         return inserted;
+    }
+
+    //Very slow compared to array.
+    public int get(int index) {
+        if (front == null) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        Node current = front;
+        int i = 0;
+
+        while (current != null) {
+            if (i == index) {
+                return current.getValue();
+            }
+            if (current.getLink() != null) {
+                current = current.getLink();
+            } else {
+                current = null;
+            }
+            i++;
+        }
+        throw new IndexOutOfBoundsException();
     }
 
     public String toString() {
