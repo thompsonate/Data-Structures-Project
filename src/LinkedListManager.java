@@ -3,7 +3,6 @@ import java.util.Iterator;
 
 public class LinkedListManager {
     public LinkedListImplementation list = new LinkedListImplementation();
-    private LinkedListImplementation sorted = new LinkedListImplementation();
 
     public LinkedListManager(ArrayList<Integer> input) {
         Iterator<Integer> iterator = input.iterator();
@@ -13,6 +12,28 @@ public class LinkedListManager {
     }
 
     public LinkedListManager() {
+    }
+
+    public LinkedListManager(LinkedListManager manager) {
+        Node currentOld = manager.list.front;
+        if (currentOld == null) {
+            return;
+        }
+
+        Node newFront = new Node();
+        list.front = newFront;
+        newFront.setValue(currentOld.getValue());
+        currentOld = currentOld.getLink();
+        Node currentNew = list.front;
+
+        while (currentOld != null) {
+            Node newNode = new Node(currentOld.getValue());
+            currentNew.setLink(newNode);
+            currentNew = currentNew.getLink();
+            currentOld = currentOld.getLink();
+            list.size++;
+        }
+
     }
 
     public boolean linearSearch(int value) {
@@ -44,7 +65,7 @@ public class LinkedListManager {
     }
 
     public void insertionSort() {
-        sorted = new LinkedListImplementation();
+        LinkedListImplementation sorted = new LinkedListImplementation();
         Node current = list.front;
         // Traverse the given linked list and insert every node to sorted
         while (current != null) {
@@ -136,7 +157,15 @@ public class LinkedListManager {
 
 class LinkedListImplementation {
     public Node front;
-    private int size;
+    public int size;
+
+    public LinkedListImplementation() {}
+
+
+    public LinkedListImplementation(Node front, int size) {
+        this.front = front;
+        this.size = size;
+    }
 
     public int size() {
         return size;
@@ -248,7 +277,6 @@ class LinkedListImplementation {
             return "";
         }
     }
-
 }
 
 

@@ -19,6 +19,10 @@ public class ArrayManager {
         array = new ArrayImplementation(size);
     }
 
+    public ArrayManager(ArrayManager manager) {
+        this.array = new ArrayImplementation(manager.array.getArray().clone());
+    }
+
     public int linearSearch(int valToFind) {
         for (int i = 0; i < array.length(); i++) {
             if (array.get(i) == valToFind)

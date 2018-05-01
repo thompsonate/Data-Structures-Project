@@ -1,12 +1,14 @@
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class BigOTest {
 
     private ArrayManager arrayManager;
     private LinkedListManager linkedListManager;
+
+    private ArrayManager originalArrayManager;
+    private LinkedListManager originalLinkedListManager;
+
+    private TimeManager timeManager = new TimeManager();
 
     public static void main(String[] args) {
         BigOTest project = new BigOTest();
@@ -46,7 +48,7 @@ public class BigOTest {
                     System.out.print("Enter upper bound of randomly generated numbers: ");
                     int bound = scanner.nextInt();
 
-                    System.out.println("Would you like to set a value at index? (y/n) ");
+                    System.out.println("Set a known value at specific index? (y/n) ");
                     String response = scanner.next();
 
                     if (response.equals("y") || response.equals("Y")) {
@@ -88,14 +90,17 @@ public class BigOTest {
             System.out.println();
             System.out.println("Choose a data structure to search or sort");
             System.out.println("1 - Array\n2 - Linked list");
+            boolean isArray = false;
 
             switch (scanner.nextInt()) {
                 case 1:
                     System.out.println("Array:");
+                    isArray = true;
                     chooseSearchSort(true);
                     break;
                 case 2:
                     System.out.println("Linked list:");
+                    isArray = false;
                     chooseSearchSort(false);
                     break;
                 default:
@@ -106,6 +111,21 @@ public class BigOTest {
             System.out.println("Perform another operation? (y/n)");
             String response = scanner.next();
             continueChoose = (response.equals("y") || response.equals("Y"));
+
+            if (continueChoose) {
+                System.out.println();
+                System.out.println("Reset data structures to original state? (y/n)");
+                String reset = scanner.next();
+                if (reset.equals("y") || reset.equals("Y")) {
+                    arrayManager = new ArrayManager(originalArrayManager);
+                    linkedListManager = new LinkedListManager(originalLinkedListManager);
+                    if (isArray) {
+                        System.out.println(arrayManager.array);
+                    } else {
+                        System.out.println(linkedListManager.list);
+                    }
+                }
+            }
         }
     }
 
@@ -124,19 +144,25 @@ public class BigOTest {
                     int val1 = scanner.nextInt();
 
                     if (isArray) {
+                        timeManager.startTimer();
                         int found = arrayManager.linearSearch(val1);
+                        long time = timeManager.endTimer();
                         if (found == -1) {
                             System.out.println("Value not found in array.");
                         } else {
                             System.out.println("Value found at index " + found);
                         }
+                        System.out.println("Completed operation on " + arrayManager.array.length() + " value array in " + time + "ms");
                     } else {
+                        timeManager.startTimer();
                         boolean found = linkedListManager.linearSearch(val1);
+                        long time = timeManager.endTimer();
                         if (found) {
                             System.out.println("Value found in linked list.");
                         } else {
                             System.out.println("Value not found in linked list");
                         }
+                        System.out.println("Completed operation on " + linkedListManager.list.size() + " value linked list in " + time + "ms");
                     }
                     break;
                 case 2:
@@ -144,47 +170,71 @@ public class BigOTest {
                     int val2 = scanner.nextInt();
 
                     if (isArray) {
+                        timeManager.startTimer();
                         System.out.println("Warning: this will not work correctly unless array is already sorted.");
                         int found = arrayManager.binarySearch(val2);
+                        long time = timeManager.endTimer();
                         if (found == -1) {
                             System.out.println("Value not found in array.");
                         } else {
                             System.out.println("Value found at index " + found);
                         }
+                        System.out.println("Completed operation on " + arrayManager.array.length() + " value array in " + time + "ms");
                     } else {
+                        timeManager.startTimer();
                         int found = linkedListManager.binarySearch(val2);
+                        long time = timeManager.endTimer();
                         if (found == -1) {
                             System.out.println("Value not found in linked list.");
                         } else {
                             System.out.println("Value found at position " + found);
                         }
+                        System.out.println("Completed operation on " + linkedListManager.list.size() + " value linked list in " + time + "ms");
                     }
                     break;
                 case 3:
                     if (isArray) {
+                        timeManager.startTimer();
                         arrayManager.insertionSort();
+                        long time = timeManager.endTimer();
                         System.out.println(arrayManager.array);
+                        System.out.println("Completed operation on " + arrayManager.array.length() + " values in " + time + "ms");
                     } else {
+                        timeManager.startTimer();
                         linkedListManager.insertionSort();
+                        long time = timeManager.endTimer();
                         System.out.println(linkedListManager.list);
+                        System.out.println("Completed operation on " + linkedListManager.list.size() + " values in " + time + "ms");
                     }
                     break;
                 case 4:
                     if (isArray) {
+                        timeManager.startTimer();
                         arrayManager.mergeSort();
+                        long time = timeManager.endTimer();
                         System.out.println(arrayManager.array);
+                        System.out.println("Completed operation on " + arrayManager.array.length() + " values in " + time + "ms");
                     } else {
+                        timeManager.startTimer();
                         linkedListManager.mergeSort();
+                        long time = timeManager.endTimer();
                         System.out.println(linkedListManager.list);
+                        System.out.println("Completed operation on " + linkedListManager.list.size() + " values in " + time + "ms");
                     }
                     break;
                 case 5:
                     if (isArray) {
+                        timeManager.startTimer();
                         arrayManager.bubbleSort();
+                        long time = timeManager.endTimer();
                         System.out.println(arrayManager.array);
+                        System.out.println("Completed operation on " + arrayManager.array.length() + " values in " + time + "ms");
                     } else {
+                        timeManager.startTimer();
                         linkedListManager.bubbleSort();
+                        long time = timeManager.endTimer();
                         System.out.println(linkedListManager.list);
+                        System.out.println("Completed operation on " + linkedListManager.list.size() + " values in " + time + "ms");
                     }
                     break;
                 default:
@@ -204,6 +254,11 @@ public class BigOTest {
             arrayManager.array.add(value, i);
             linkedListManager.list.insert(value, i);
         }
+
+        if (originalArrayManager == null || originalLinkedListManager == null) {
+            originalArrayManager = new ArrayManager(arrayManager);
+            originalLinkedListManager = new LinkedListManager(linkedListManager);
+        }
     }
 
     private void constructDataStructuresWithRandomNums(int size, int bound, int includeValue, int atIndex) {
@@ -215,6 +270,11 @@ public class BigOTest {
 
             arrayManager.array.add(value, i);
             linkedListManager.list.insert(value, i);
+        }
+
+        if (originalArrayManager == null || originalLinkedListManager == null) {
+            originalArrayManager = new ArrayManager(arrayManager);
+            originalLinkedListManager = new LinkedListManager(linkedListManager);
         }
     }
 
@@ -248,6 +308,11 @@ public class BigOTest {
 
         arrayManager = new ArrayManager(list);
         linkedListManager = new LinkedListManager(list);
+
+        if (originalArrayManager == null || originalLinkedListManager == null) {
+            originalArrayManager = new ArrayManager(arrayManager);
+            originalLinkedListManager = new LinkedListManager(linkedListManager);
+        }
 
         return true;
     }
