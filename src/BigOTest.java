@@ -152,7 +152,7 @@ public class BigOTest {
                         } else {
                             System.out.println("Value found at index " + found);
                         }
-                        System.out.println("Completed operation on " + arrayManager.array.length() + " value array in " + time + "ms");
+                        System.out.println("Completed operation on " + arrayManager.array.length() + " value array in " + time/1000000 + " ms (" + time + " ns, " + time/1000000000 + " s).");
                     } else {
                         timeManager.startTimer();
                         boolean found = linkedListManager.linearSearch(val1);
@@ -162,7 +162,7 @@ public class BigOTest {
                         } else {
                             System.out.println("Value not found in linked list");
                         }
-                        System.out.println("Completed operation on " + linkedListManager.list.size() + " value linked list in " + time + "ms");
+                        System.out.println("Completed operation on " + linkedListManager.list.size() + " value linked list in " + time/1000000 + " ms (" + time + " ns, " + time/1000000000 + " s).");
                     }
                     break;
                 case 2:
@@ -179,7 +179,7 @@ public class BigOTest {
                         } else {
                             System.out.println("Value found at index " + found);
                         }
-                        System.out.println("Completed operation on " + arrayManager.array.length() + " value array in " + time + "ms");
+                        System.out.println("Completed operation on " + arrayManager.array.length() + " value array in " + time/1000000 + " ms (" + time + " ns, " + time/1000000000 + " s).");
                     } else {
                         timeManager.startTimer();
                         int found = linkedListManager.binarySearch(val2);
@@ -189,7 +189,7 @@ public class BigOTest {
                         } else {
                             System.out.println("Value found at position " + found);
                         }
-                        System.out.println("Completed operation on " + linkedListManager.list.size() + " value linked list in " + time + "ms");
+                        System.out.println("Completed operation on " + linkedListManager.list.size() + " value linked list in " + time/1000000 + " ms (" + time + " ns, " + time/1000000000 + " s).");
                     }
                     break;
                 case 3:
@@ -198,13 +198,13 @@ public class BigOTest {
                         arrayManager.insertionSort();
                         long time = timeManager.endTimer();
                         System.out.println(arrayManager.array);
-                        System.out.println("Completed operation on " + arrayManager.array.length() + " values in " + time + "ms");
+                        System.out.println("Completed operation on " + arrayManager.array.length() + " values in " + time/1000000 + " ms (" + time + " ns, " + time/1000000000 + " s).");
                     } else {
                         timeManager.startTimer();
                         linkedListManager.insertionSort();
                         long time = timeManager.endTimer();
                         System.out.println(linkedListManager.list);
-                        System.out.println("Completed operation on " + linkedListManager.list.size() + " values in " + time + "ms");
+                        System.out.println("Completed operation on " + linkedListManager.list.size() + " values in " + time/1000000 + " ms (" + time + " ns, " + time/1000000000 + " s).");
                     }
                     break;
                 case 4:
@@ -213,13 +213,13 @@ public class BigOTest {
                         arrayManager.mergeSort();
                         long time = timeManager.endTimer();
                         System.out.println(arrayManager.array);
-                        System.out.println("Completed operation on " + arrayManager.array.length() + " values in " + time + "ms");
+                        System.out.println("Completed operation on " + arrayManager.array.length() + " values in " + time/1000000 + " ms (" + time + " ns, " + time/1000000000 + " s).");
                     } else {
                         timeManager.startTimer();
                         linkedListManager.mergeSort();
                         long time = timeManager.endTimer();
                         System.out.println(linkedListManager.list);
-                        System.out.println("Completed operation on " + linkedListManager.list.size() + " values in " + time + "ms");
+                        System.out.println("Completed operation on " + linkedListManager.list.size() + " values in " + time/1000000 + " ms (" + time + " ns, " + time/1000000000 + " s).");
                     }
                     break;
                 case 5:
@@ -228,13 +228,13 @@ public class BigOTest {
                         arrayManager.bubbleSort();
                         long time = timeManager.endTimer();
                         System.out.println(arrayManager.array);
-                        System.out.println("Completed operation on " + arrayManager.array.length() + " values in " + time + "ms");
+                        System.out.println("Completed operation on " + arrayManager.array.length() + " values in " + time/1000000 + " ms (" + time + " ns, " + time/1000000000 + " s).");
                     } else {
                         timeManager.startTimer();
                         linkedListManager.bubbleSort();
                         long time = timeManager.endTimer();
                         System.out.println(linkedListManager.list);
-                        System.out.println("Completed operation on " + linkedListManager.list.size() + " values in " + time + "ms");
+                        System.out.println("Completed operation on " + linkedListManager.list.size() + " values in " + time/1000000 + " ms (" + time + " ns, " + time/1000000000 + " s).");
                     }
                     break;
                 default:

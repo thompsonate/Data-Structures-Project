@@ -4,11 +4,11 @@ public class TimeManager {
     public long startTime;
 
     public void startTimer() {
-        startTime = System.currentTimeMillis();
+        startTime = System.nanoTime();
     }
 
     public long endTimer() {
-        long now = System.currentTimeMillis();
+        long now = System.nanoTime();
 
         return now - startTime;
     }
