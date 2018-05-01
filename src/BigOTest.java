@@ -10,12 +10,8 @@ public class BigOTest {
 
     public static void main(String[] args) {
         BigOTest project = new BigOTest();
-
+        System.out.println();
         project.setUpDataStructures();
-
-        System.out.println(project.arrayManager.array);
-        System.out.println(project.linkedListManager.list);
-
     }
 
     private void setUpDataStructures() {
@@ -36,7 +32,10 @@ public class BigOTest {
                         System.out.println("Enter CSV file path:");
                         String path = scanner.next();
                         boolean success = constructDataStructuresFromFile(path);
-                        if (!success) {
+                        if (success) {
+                            System.out.println(arrayManager.array);
+                            chooseDataStructure();
+                        } else {
                             continueFile = true;
                         }
                     }
@@ -64,12 +63,132 @@ public class BigOTest {
                         } while (index >= size);
 
                         constructDataStructuresWithRandomNums(size, bound, value, index);
+                        System.out.println(arrayManager.array);
+                        chooseDataStructure();
                     } else {
                         constructDataStructuresWithRandomNums(size, bound);
+                        System.out.println(arrayManager.array);
+                        chooseDataStructure();
                     }
                     break;
                 default:
-                    continueImport = false;
+                    continueImport = true;
+            }
+        }
+    }
+
+
+    private void chooseDataStructure() {
+        Scanner scanner = new Scanner(System.in);
+
+        boolean continueChoose = true;
+
+        while (continueChoose) {
+            continueChoose = false;
+            System.out.println();
+            System.out.println("Choose a data structure to search or sort");
+            System.out.println("1 - Array\n2 - Linked list");
+
+            switch (scanner.nextInt()) {
+                case 1:
+                    System.out.println("Array:");
+                    chooseSearchSort(true);
+                    break;
+                case 2:
+                    System.out.println("Linked list:");
+                    chooseSearchSort(false);
+                    break;
+                default:
+                    continueChoose = true;
+            }
+
+            System.out.println();
+            System.out.println("Perform another operation? (y/n)");
+            String response = scanner.next();
+            continueChoose = (response.equals("y") || response.equals("Y"));
+        }
+    }
+
+    private void chooseSearchSort(boolean isArray) {
+        Scanner scanner = new Scanner(System.in);
+
+        boolean continueChoose = true;
+
+        while (continueChoose) {
+            continueChoose = false;
+            System.out.println("1 - Linear search\n2 - Binary search\n3 - Insertion sort\n4 - Merge sort\n5 - Bubble sort");
+
+            switch (scanner.nextInt()) {
+                case 1:
+                    System.out.println("Enter value to search for: ");
+                    int val1 = scanner.nextInt();
+
+                    if (isArray) {
+                        int found = arrayManager.linearSearch(val1);
+                        if (found == -1) {
+                            System.out.println("Value not found in array.");
+                        } else {
+                            System.out.println("Value found at index " + found);
+                        }
+                    } else {
+                        boolean found = linkedListManager.linearSearch(val1);
+                        if (found) {
+                            System.out.println("Value found in linked list.");
+                        } else {
+                            System.out.println("Value not found in linked list");
+                        }
+                    }
+                    break;
+                case 2:
+                    System.out.println("Enter value to search for: ");
+                    int val2 = scanner.nextInt();
+
+                    if (isArray) {
+                        System.out.println("Warning: this will not work correctly unless array is already sorted.");
+                        int found = arrayManager.binarySearch(val2);
+                        if (found == -1) {
+                            System.out.println("Value not found in array.");
+                        } else {
+                            System.out.println("Value found at index " + found);
+                        }
+                    } else {
+                        int found = linkedListManager.binarySearch(val2);
+                        if (found == -1) {
+                            System.out.println("Value not found in linked list.");
+                        } else {
+                            System.out.println("Value found at position " + found);
+                        }
+                    }
+                    break;
+                case 3:
+                    if (isArray) {
+                        arrayManager.insertionSort();
+                        System.out.println(arrayManager.array);
+                    } else {
+                        linkedListManager.insertionSort();
+                        System.out.println(linkedListManager.list);
+                    }
+                    break;
+                case 4:
+                    if (isArray) {
+                        arrayManager.mergeSort();
+                        System.out.println(arrayManager.array);
+                    } else {
+                        linkedListManager.mergeSort();
+                        System.out.println(linkedListManager.list);
+                    }
+                    break;
+                case 5:
+                    if (isArray) {
+                        arrayManager.bubbleSort();
+                        System.out.println(arrayManager.array);
+                    } else {
+                        linkedListManager.bubbleSort();
+                        System.out.println(linkedListManager.list);
+                    }
+                    break;
+                default:
+                    continueChoose = true;
             }
         }
     }
