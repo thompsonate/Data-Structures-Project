@@ -15,6 +15,7 @@ public class BigOTest {
 
         System.out.println(project.arrayManager.array);
         System.out.println(project.linkedListManager.list);
+
     }
 
     private void setUpDataStructures() {

@@ -3,6 +3,7 @@ import java.util.Iterator;
 
 public class LinkedListManager {
     public LinkedListImplementation list = new LinkedListImplementation();
+    private LinkedListImplementation sorted = new LinkedListImplementation();
 
     public LinkedListManager(ArrayList<Integer> input) {
         Iterator<Integer> iterator = input.iterator();
@@ -12,16 +13,11 @@ public class LinkedListManager {
     }
 
     public LinkedListManager() {
-        list = new LinkedListImplementation();
     }
 
-
-
-    public boolean linearSearch(int value)
-    {
+    public boolean linearSearch(int value) {
         Node current = list.front;
-        while (current != null)
-        {
+        while (current != null) {
             if (current.getValue() == value)
                 return true;
             current = current.getLink();
@@ -46,6 +42,96 @@ public class LinkedListManager {
         }
         return -1;
     }
+
+    public void insertionSort() {
+        sorted = new LinkedListImplementation();
+        Node current = list.front;
+        // Traverse the given linked list and insert every node to sorted
+        while (current != null) {
+            // Store next for next iteration
+            Node next = current.getLink();
+
+            sorted.sortedInsert(current);
+            current = next;
+        }
+        list.front = sorted.front;
+    }
+
+    public void mergeSort() {
+        list.front = mergeSortRecursive(list.front);
+    }
+
+    private Node mergeSortRecursive(Node head) {
+        if (head == null || head.getLink() == null) {
+            return head;
+        }
+
+        Node middle = getMiddle(head);
+        Node nextofmiddle = middle.getLink();
+
+        middle.setLink(null);
+        // Apply mergeSort on left list
+        Node left = mergeSortRecursive(head);
+        // Apply mergeSort on right list
+        Node right = mergeSortRecursive(nextofmiddle);
+        // Merge the left and right lists
+        Node sortedlist = sortedMerge(left, right);
+        return sortedlist;
+    }
+
+    private Node sortedMerge(Node a, Node b) {
+        Node result = null;
+        if (a == null)
+            return b;
+        if (b == null)
+            return a;
+
+        if (a.getValue() <= b.getValue()) {
+            result = a;
+            result.setLink(sortedMerge(a.getLink(), b));
+        } else {
+            result = b;
+            result.setLink(sortedMerge(a, b.getLink()));
+        }
+        return result;
+    }
+
+    private Node getMiddle(Node h) {
+        if (h == null)
+            return h;
+        Node fastptr = h.getLink();
+        Node slowptr = h;
+
+        // Move fastptr by two and slow ptr by one
+        // Finally slowptr will point to middle node
+        while (fastptr != null) {
+            fastptr = fastptr.getLink();
+            if(fastptr!=null) {
+                slowptr = slowptr.getLink();
+                fastptr=fastptr.getLink();
+            }
+        }
+        return slowptr;
+    }
+
+    public void bubbleSort() {
+        if (list.size() > 1) {
+            for (int i = 0; i < list.size(); i++ ) {
+                Node currentNode = list.front;
+                Node next = list.front.getLink();
+                for (int j = 0; j < list.size() - 1; j++) {
+                    if (currentNode.getValue() > next.getValue()) {
+                        int currentNodeValue = currentNode.getValue();
+                        currentNode.setValue(next.getValue());
+                        next.setValue(currentNodeValue);
+                    }
+                    currentNode = next;
+                    next = next.getLink();
+                }
+            }
+        }
+    }
+
 }
 
 class LinkedListImplementation {
@@ -89,6 +175,24 @@ class LinkedListImplementation {
         return inserted;
     }
 
+    public void sortedInsert(Node newNode) {
+        if (front == null) {
+            newNode.setLink(null);
+            front = newNode;
+        } else if (front.getValue() >= newNode.getValue()) {
+            newNode.setLink(front);
+            front = newNode;
+        } else {
+            Node current = front;
+            // Locate the node before the point of insertion
+            while (current.getLink() != null && current.getLink().getValue() < newNode.getValue()) {
+                current = current.getLink();
+            }
+            newNode.setLink(current.getLink());
+            current.setLink(newNode);
+        }
+    }
+
     //Very slow compared to array.
     public int get(int index) {
         if (front == null) {
@@ -113,32 +217,36 @@ class LinkedListImplementation {
     }
 
     public String toString() {
-        Node current = front;
-        int outputSize = size + 2;
-        String[] output = new String[outputSize];
+        try {
+            Node current = front;
+            int outputSize = size + 2;
+            String[] output = new String[outputSize];
 
-        output[0] = "[";
+            output[0] = "[";
 
-        for (int i = 1; i < outputSize - 1; i++) {
-            output[i] = String.valueOf(current.getValue());
+            for (int i = 1; i < outputSize - 1; i++) {
+                output[i] = String.valueOf(current.getValue());
 
-            if (current.getLink() != null) {
-                current = current.getLink();
-            } else {
-                current = null;
+                if (current.getLink() != null) {
+                    current = current.getLink();
+                } else {
+                    current = null;
+                }
             }
+
+            output[outputSize - 1] = "]";
+            String list = String.join(", ", output);
+            StringBuilder sb = new StringBuilder(list);
+
+            int firstIndex = sb.indexOf(", ");
+            sb.delete(firstIndex, firstIndex + 2);
+            int lastIndex = sb.lastIndexOf(", ");
+            sb.delete(lastIndex, lastIndex + 2);
+
+            return sb.toString();
+        } catch (StringIndexOutOfBoundsException e) {
+            return "";
         }
-
-        output[outputSize - 1] = "]";
-        String list = String.join(", ", output);
-        StringBuilder sb = new StringBuilder(list);
-
-        int firstIndex = sb.indexOf(", ");
-        sb.delete(firstIndex, firstIndex+2);
-        int lastIndex = sb.lastIndexOf(", ");
-        sb.delete(lastIndex, lastIndex+2);
-
-        return sb.toString();
     }
 
 }
